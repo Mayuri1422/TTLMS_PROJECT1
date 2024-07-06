@@ -1,0 +1,41 @@
+<div class="modal fade" id="createLeaveModal" tabindex="-1" aria-labelledby="createLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createLeaveModalLabel">Create Leave</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="createLeaveForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter name">
+            </div>
+  
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" formControlName="description" placeholder="Enter description"></textarea>
+            </div>
+  
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="is_active" formControlName="is_active">
+              <label class="form-check-label" for="is_active">Is Active</label>
+            </div>
+  
+            <!-- <div class="mb-3">
+              <label for="created_by" class="form-label">Created By</label>
+              <input type="text" class="form-control" id="created_by" formControlName="created_by" placeholder="Enter creator">
+            </div>
+  
+            <div class="mb-3">
+              <label for="updated_by" class="form-label">Updated By</label>
+              <input type="text" class="form-control" id="updated_by" formControlName="updated_by" placeholder="Enter updater">
+            </div> -->
+  
+            <button type="submit" class="btn btn-success">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

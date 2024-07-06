@@ -1,0 +1,131 @@
+<div class="main-content bg-light rounded-3 shadow-lg p-3">
+  <div class="d-flex justify-content-between mt-2 mb-2 shadow-sm"
+    id="buttonDiv">
+    <!-- <button class="btn btn-primary m-3" data-bs-toggle="modal" data-bs-target="#createLeaveModal">
+      Create Leave Type
+    </button> -->
+    <!-- <button class="btn btn-primary m-3" (click)="toggleShowLeaves()">
+      {{ showLeaves ? 'Hide Leaves' : 'All Pending Leaves ' }}
+    </button> -->
+
+    <div class="btn-group m-3">
+      <button type="button" class="btn btn-primary dropdown-toggle"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        Pending Leave
+      </button>
+      <ul class="dropdown-menu">
+        <!-- <li><a class="dropdown-item" routerLink="/leave-management/admin-dashboard/Compensatory-Request" routerLinkActive="active"></a></li> -->
+        <li><a class="dropdown-item"
+            routerLink="/leave-management/admin-dashboard/rejected-leave"
+            routerLinkActive="active">Rejected Leaves</a></li>
+        <li><a class="dropdown-item"
+            routerLink="/leave-management/admin-dashboard/canceled-leave"
+            routerLinkActive="active">Canceled Leaves</a></li>
+        <li> <a class="dropdown-item" (click)="toggleShowLeaves()">
+            {{ showLeaves ? 'Hide Leaves' : 'All Pending Leaves ' }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  <br>
+  <div class="shadow-sm" id="table" id="scrollable-content">
+    <h4 class="text-center p-3">Pending Leaves</h4>
+    <button class="btn btn-success m-1" (click)="approveSelected()"
+      [disabled]="!hasSelectedLeaves()">Approve Selected</button>
+    <button class="btn btn-danger m-1" (click)="rejectSelected()"
+      [disabled]="!hasSelectedLeaves()">Reject Selected</button>
+    <table class="table table-hover table-responsive mt-3">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Employee</th>
+          <th>Leave Type</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="!showLeaves">
+          <tr *ngFor="let leave of adminPendingLeave">
+            <td>
+              <input type="checkbox" [(ngModel)]="leave.selected">
+            </td>
+            <td>{{ leave.user.name }}</td>
+            <td>{{ leave.leave_type }}</td>
+            <td>{{ leave.from_date | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ leave.to_date | date : 'dd-MM-yyyy' }}</td>
+            <td>
+              <button class="btn btn-success m-1"
+                (click)="updateLeaveStatus(leave.id, 'approved')">Approve</button>
+              <button class="btn btn-danger m-1"
+                (click)="openRejectReasonModal(leave.id)">Reject</button>
+            </td>
+          </tr>
+        </ng-container>
+
+        <ng-container *ngIf="showLeaves">
+          <tr *ngFor="let leave of pendingLeaves">
+            <td>
+              <input type="checkbox" [(ngModel)]="leave.selected">
+            </td>
+            <td>{{ leave.user.name }}</td>
+            <td>{{ leave.leave_type }}</td>
+            <td>{{ leave.from_date | date : 'dd-MM-yyyy' }}</td>
+            <td>{{ leave.to_date | date : 'dd-MM-yyyy' }}</td>
+            <td>
+              <button class="btn btn-success m-1"
+                (click)="updateLeaveStatus(leave.id, 'approved')">Approve</button>
+              <button class="btn btn-danger m-1"
+                (click)="openRejectReasonModal(leave.id)">Reject</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="createLeaveModal" tabindex="-1" aria-labelledby="createLeaveModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createLeaveModalLabel">Create Leave</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="createLeaveForm" (ngSubmit)="onSubmitCreateLeave()">
+          <div class="mb-3">
+            <label for="leaveType" class="form-label">Leave Type</label>
+            <input type="text" class="form-control" id="leaveType" formControlName="leaveType">
+          </div>
+          <div class="mb-3">
+            <label for="fromDate" class="form-label">From</label>
+            <input type="date" class="form-control" id="fromDate" formControlName="fromDate">
+          </div>
+          <div class="mb-3">
+            <label for="toDate" class="form-label">To</label>
+            <input type="date" class="form-control" id="toDate" formControlName="toDate">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<app-create-leave-modal></app-create-leave-modal>
+<!-- <app-update-leave-type-modal></app-update-leave-type-modal> -->
+
+<!-- <div class="container mt-4">
+  <h2>Leaves List</h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let leave of leaves">
+      {{ leave.leave_type.name }} - {{ leave.yearly_leaves }} leaves
+      <button class="btn btn-sm btn-primary float-right" (click)="openUpdateLeaveModal(leave)">Edit</button>
+    </li>
+  </ul>
+</div> -->

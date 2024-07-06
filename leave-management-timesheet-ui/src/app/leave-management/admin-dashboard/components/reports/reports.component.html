@@ -1,0 +1,93 @@
+<!-- Main Content -->
+<main class="main-content">
+  <div class="card card-hover rounded-3 shadow-sm mb-4">
+    <div class="card-body employee-nav d-flex justify-content-between">
+      <!-- Dropdown Button -->
+      <div class="dropdown">
+        <button class="btn btn-setting1 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Actions
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item" (click)="createReport()">Create Reports</a></li>
+          <li><a class="dropdown-item" (click)="navigateToLeaveCalendar()">Leave Calendar</a></li>
+          <!-- Add more dropdown items here if needed -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4>User Information</h4>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ userData.first_name }} {{ userData.last_name }}</h5>
+      <p class="card-text">
+        <strong>Email:</strong> {{ userData.email }}<br>
+        <strong>Mobile Number:</strong> {{ userData.mobile_no }}<br>
+        <strong>Date of Joining:</strong> {{ userData.date_of_joining | date: 'yyyy-MM-dd' }}<br>
+      </p>
+    </div>
+  </div>
+
+  <!-- Leave Balance Information -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h4>Leave Balance Report</h4>
+    </div>
+    <div class="card-body">
+      <div *ngIf="userLeaveBalance.length > 0; else noBalanceData">
+        <div *ngFor="let leave of userLeaveBalance" class="mb-3 p-3 border-bottom">
+          <h5 class="text-info">{{ leave.company_leave?.leave_type?.name }}</h5>
+          <p class="mb-0"><strong>Yearly Leaves:</strong> {{ leave.company_leave?.yearly_leaves }}</p>
+          <p class="mb-0"><strong>Max Carry Forward:</strong> {{ leave.company_leave?.max_carry_forward }}</p>
+          <p class="mb-0"><strong>Prorated Balance:</strong> {{ leave.prorated_balance }}</p>
+          <p class="mb-0"><strong>Current Balance:</strong> {{ leave.current_balance }}</p>
+          <p class="mb-0"><strong>Compensatory Count:</strong> {{ leave.compensatory_count }}</p>
+        </div>
+      </div>
+      <ng-template #noBalanceData>
+        <p class="text-danger">No leave balance data available for this user.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Leave Status Information -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-warning text-white">
+      <h4>Leave Status Report</h4>
+    </div>
+    <div class="card-body">
+      <div *ngIf="userLeaveStatus.length > 0; else noStatusData">
+        <table class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Leave ID</th>
+              <th scope="col">Half Day</th>
+              <th scope="col">From Date</th>
+              <th scope="col">To Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Attachments</th>
+              <th scope="col">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let leaveStatus of userLeaveStatus">
+              <td>{{ leaveStatus.id }}</td>
+              <td>{{ leaveStatus.half_day ? 'Yes' : 'No' }}</td>
+              <td>{{ leaveStatus.from_date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ leaveStatus.to_date | date: 'yyyy-MM-dd' }}</td>
+              <td>{{ leaveStatus.status }}</td>
+              <td>{{ leaveStatus.comments }}</td>
+              <td>{{ leaveStatus.attachments }}</td>
+              <td>{{ leaveStatus.message }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noStatusData>
+        <p class="text-danger">No leave status data available for this user.</p>
+      </ng-template>
+    </div>
+  </div>
+</main>
